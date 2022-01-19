@@ -1,17 +1,18 @@
 package Vigor
 
 import (
-	"github.com/pkg/errors"
 	"fmt"
 	"io/ioutil"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-var E_UPDATE_FAILED = errors.New("dsl status update failed")
-var E_PARSE_FAILED = errors.New("dsl status parse failed")
+var ErrUpdateFailed = errors.New("dsl status update failed")
+var ErrParseFailed = errors.New("dsl status parse failed")
 
 var stream_labelmap = map[string]string{
 	"Actual Rate":     "vigor_actual",
@@ -39,8 +40,8 @@ var end_labelmap = map[string]string{
 	"LYSMB":          "vigor_lysmb",
 }
 
-func (this *Vigor) UpdateStatus() (error) {
-	resp, err := this.client.Get(fmt.Sprintf("http://%s/cgi-bin/V2X00.cgi?sFormAuthStr=%s&fid=2356", this.ip, this.csrf))
+func (v *Vigor) UpdateStatus() error {
+	resp, err := v.client.Get(fmt.Sprintf("http://%s/cgi-bin/V2X00.cgi?sFormAuthStr=%s&fid=2356", v.ip, v.csrf))
 	if err != nil {
 		return err
 	}
@@ -50,18 +51,18 @@ func (this *Vigor) UpdateStatus() (error) {
 		return nil
 	}
 
-	return E_UPDATE_FAILED
+	return ErrUpdateFailed
 }
 
-func (this *Vigor) FetchStatus() (error) {
-	resp, err := this.client.Get(fmt.Sprintf("http://%s/doc/dslstatus.sht", this.ip))
+func (v *Vigor) FetchStatus() error {
+	resp, err := v.client.Get(fmt.Sprintf("http://%s/doc/dslstatus.sht", v.ip))
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return E_UPDATE_FAILED
+		return ErrUpdateFailed
 	}
 
 	bytes, err := ioutil.ReadAll(resp.Body)
@@ -108,7 +109,7 @@ func parsecol(input *[]byte, field string, multiplier float64, multicol bool) (f
 	}
 
 	if len(col) != 2 {
-		return 0, 0, E_PARSE_FAILED
+		return 0, 0, ErrParseFailed
 	}
 
 	return col[0], col[1], nil
@@ -136,7 +137,7 @@ func parseHeadCol(input *[]byte, field string) (string, string, error) {
 	return value1, value2, nil
 }
 
-func parseHTML(input *[]byte) (error) {
+func parseHTML(input *[]byte) error {
 
 	stripped, err := stripHTML(input)
 	if err != nil {

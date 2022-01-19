@@ -2,11 +2,12 @@ package main
 
 import (
 	"flag"
-	"github.com/T4cC0re/vigor-node-exporter/Vigor"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/T4cC0re/vigor-node-exporter/Vigor"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var username = flag.String("username", "", "username to authenticate to the Vigor")
