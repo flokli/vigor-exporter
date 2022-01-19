@@ -32,7 +32,10 @@ func main() {
 		panic(err)
 	}
 
-	v.Login(*username, *password)
+	err = v.Login(*username, *password)
+	if err != nil {
+		panic(err)
+	}
 
 	v.UpdateStatus()
 	v.FetchStatus()
