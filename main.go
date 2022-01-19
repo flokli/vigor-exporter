@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/T4cC0re/vigor-node-exporter/Vigor"
+	vigor "github.com/T4cC0re/vigor-node-exporter/vigor"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -14,12 +14,12 @@ var username = flag.String("username", "", "username to authenticate to the Vigo
 var password = flag.String("password", "", "password to authenticate to the Vigor")
 var ip = flag.String("ip", "", "ip the Vigor is reachable on")
 
-var vigor *Vigor.Vigor
+var v *vigor.Vigor
 
 func loginIfError(err error) {
 	if err != nil {
 		print(err)
-		vigor.Login(*username, *password)
+		v.Login(*username, *password)
 	}
 }
 
@@ -27,21 +27,22 @@ func main() {
 	flag.Parse()
 
 	var err error
-	vigor, err = Vigor.New(*ip)
+	v, err = vigor.New(*ip)
 	if err != nil {
 		panic(err)
 	}
-	vigor.Login(*username, *password)
 
-	vigor.UpdateStatus()
-	vigor.FetchStatus()
+	v.Login(*username, *password)
+
+	v.UpdateStatus()
+	v.FetchStatus()
 
 	go func() {
 		for {
 			time.Sleep(5 * time.Second)
 
-			loginIfError(vigor.UpdateStatus())
-			loginIfError(vigor.FetchStatus())
+			loginIfError(v.UpdateStatus())
+			loginIfError(v.FetchStatus())
 		}
 	}()
 
