@@ -27,7 +27,6 @@ func New(ip string) (*Vigor, error) {
 			return http.ErrUseLastResponse
 		},
 	}
-	print(this.client)
 
 	return &this, nil
 }
