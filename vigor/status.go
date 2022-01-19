@@ -163,7 +163,6 @@ func parseHTML(input *[]byte) error {
 
 		gauges[gaugePrefix+"_down"].Set(down)
 		gauges[gaugePrefix+"_up"].Set(up)
-		fmt.Println(gaugePrefix, down, up)
 	}
 
 	for htmlField, gaugePrefix := range end_labelmap {
@@ -192,7 +191,6 @@ func parseHTML(input *[]byte) error {
 
 		gauges[gaugePrefix+"_near"].Set(nearend)
 		gauges[gaugePrefix+"_far"].Set(farend)
-		fmt.Println(gaugePrefix, nearend, farend)
 	}
 
 	firmware, _, _ := parseHeadCol(stripped, "Firmware")
