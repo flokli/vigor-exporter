@@ -22,7 +22,7 @@ func (v *Vigor) Login(username string, password string) error {
 	urlValues.Set("aa", base64.StdEncoding.EncodeToString([]byte(username)))
 	urlValues.Add("ab", base64.StdEncoding.EncodeToString([]byte(password)))
 	urlValues.Add("sFormAuthStr", v.csrf)
-	resp, err := v.client.PostForm(fmt.Sprintf("http://%s/cgi-bin/wlogin.cgi", v.ip), urlValues)
+	resp, err := v.client.PostForm(fmt.Sprintf("http://%s/cgi-bin/wlogin.cgi", v.host), urlValues)
 	if err != nil {
 		return err
 	}

@@ -41,7 +41,7 @@ var end_labelmap = map[string]string{
 }
 
 func (v *Vigor) UpdateStatus() error {
-	resp, err := v.client.Get(fmt.Sprintf("http://%s/cgi-bin/V2X00.cgi?sFormAuthStr=%s&fid=2356", v.ip, v.csrf))
+	resp, err := v.client.Get(fmt.Sprintf("http://%s/cgi-bin/V2X00.cgi?sFormAuthStr=%s&fid=2356", v.host, v.csrf))
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func (v *Vigor) UpdateStatus() error {
 }
 
 func (v *Vigor) FetchStatus() error {
-	resp, err := v.client.Get(fmt.Sprintf("http://%s/doc/dslstatus.sht", v.ip))
+	resp, err := v.client.Get(fmt.Sprintf("http://%s/doc/dslstatus.sht", v.host))
 	if err != nil {
 		return err
 	}

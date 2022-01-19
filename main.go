@@ -12,7 +12,7 @@ import (
 
 var username = flag.String("username", "", "username to authenticate to the Vigor")
 var password = flag.String("password", "", "password to authenticate to the Vigor")
-var ip = flag.String("ip", "", "ip the Vigor is reachable on")
+var host = flag.String("host", "", "hostname/ip the Vigor is reachable on")
 
 var v *vigor.Vigor
 
@@ -27,7 +27,7 @@ func main() {
 	flag.Parse()
 
 	var err error
-	v, err = vigor.New(*ip)
+	v, err = vigor.New(*host)
 	if err != nil {
 		panic(err)
 	}

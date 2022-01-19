@@ -8,14 +8,14 @@ import (
 type Vigor struct {
 	jar    *cookiejar.Jar
 	client *http.Client
-	ip     string
+	host   string
 	csrf   string
 }
 
-func New(ip string) (*Vigor, error) {
+func New(host string) (*Vigor, error) {
 	var err error
 
-	v := Vigor{ip: ip}
+	v := Vigor{host: host}
 	v.jar, err = cookiejar.New(nil)
 	if err != nil {
 		return nil, err
