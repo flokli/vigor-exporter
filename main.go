@@ -18,7 +18,6 @@ var v *vigor.Vigor
 
 func loginIfError(err error) {
 	if err != nil {
-		print(err)
 		v.Login(*username, *password)
 	}
 }
