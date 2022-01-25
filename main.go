@@ -41,7 +41,7 @@ func main() {
 
 	go func() {
 		for {
-			time.Sleep(5 * time.Second)
+			time.Sleep(60 * time.Second)
 
 			loginIfError(v.UpdateStatus())
 			loginIfError(v.FetchStatus())
