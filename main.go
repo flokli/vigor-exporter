@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	vigor "github.com/T4cC0re/vigor-node-exporter/vigor"
+	vigor "github.com/flokli/vigor-exporter/vigor"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 

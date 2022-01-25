@@ -1,4 +1,4 @@
-module github.com/T4cC0re/vigor-node-exporter
+module github.com/flokli/vigor-exporter
 
 go 1.16
 
