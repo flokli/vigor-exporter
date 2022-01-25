@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./Vigor"
 	"flag"
+	"github.com/T4cC0re/vigor-node-exporter/Vigor"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
@@ -24,7 +24,7 @@ func loginIfError(err error) {
 
 func main() {
 	flag.Parse()
-	
+
 	var err error
 	vigor, err = Vigor.New(*ip)
 	if err != nil {
