@@ -42,15 +42,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	v.UpdateStatus()
-	v.FetchStatus()
-
 	go func() {
 		for {
-			time.Sleep(60 * time.Second)
-
 			loginIfError(v.UpdateStatus())
 			loginIfError(v.FetchStatus())
+
+			time.Sleep(60 * time.Second)
 		}
 	}()
 
