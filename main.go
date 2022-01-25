@@ -10,11 +10,14 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-var username = flag.String("username", "", "username to authenticate to the Vigor")
-var password = flag.String("password", "", "password to authenticate to the Vigor")
-var host = flag.String("host", "", "hostname/ip the Vigor is reachable on")
+var (
+	username = flag.String("username", "", "username to authenticate to the Vigor")
+	password = flag.String("password", "", "password to authenticate to the Vigor")
+	host     = flag.String("host", "", "hostname/ip the Vigor is reachable on")
+	v        *vigor.Vigor
+)
 
-var v *vigor.Vigor
+const listenAddr = ":9103"
 
 func loginIfError(err error) {
 	if err != nil {
@@ -42,6 +45,8 @@ func main() {
 		log.Fatal(err)
 	}
 
+	log.Printf("Login on Vigor successful")
+
 	go func() {
 		for {
 			loginIfError(v.UpdateStatus())
@@ -51,6 +56,7 @@ func main() {
 		}
 	}()
 
+	log.Printf("Listening on %s", listenAddr)
 	http.Handle("/metrics", promhttp.Handler())
-	log.Fatal(http.ListenAndServe(":9103", nil))
+	log.Fatal(http.ListenAndServe(listenAddr, nil))
 }
