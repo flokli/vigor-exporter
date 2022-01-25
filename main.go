@@ -25,15 +25,21 @@ func loginIfError(err error) {
 func main() {
 	flag.Parse()
 
+	flag.VisitAll(func(f *flag.Flag) {
+		if f.Value.String() == "" {
+			log.Fatalf("Argument %q is missing", f.Name)
+		}
+	})
+
 	var err error
 	v, err = vigor.New(*host)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = v.Login(*username, *password)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	v.UpdateStatus()
